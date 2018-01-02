@@ -1,0 +1,89 @@
+@import './utils.less';
+
+.btn {
+    display: inline-block;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: lighten(@color-black-light, 5%);
+    padding: 12px 50px;
+    color: @color-white;
+    font-size: 18px;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    .select(none);
+
+    &:hover {
+        background-color: @color-black-light;
+    }
+
+    &:active {
+        background-color: darken(@color-black-light, 5%);
+    }
+
+    &.disabled {
+        opacity: .6;
+        pointer-events: none;
+    }
+
+    &.btn-pink {
+        background-color: @color-pink-btn;
+
+        &:hover {
+            background-color: darken(@color-pink-btn, 5%);
+        }
+
+        &:active {
+            background-color: darken(@color-pink-btn, 10%);
+        }
+    }
+
+    &.btn-teal {
+        background-color: @color-teal-btn;
+
+        &:hover {
+            background-color: darken(@color-teal-btn, 5%);
+        }
+
+        &:active {
+            background-color: darken(@color-teal-btn, 10%);
+        }
+    }
+
+    &.btn-pink-dark {
+        background-color: @color-pink-btn-dark;
+
+        &:hover {
+            background-color: darken(@color-pink-btn-dark, 5%);
+        }
+
+        &:active {
+            background-color: darken(@color-pink-btn-dark, 10%);
+        }
+    }
+
+    &.btn-yellow {
+        background-color: @color-yellow-btn;
+
+        &:hover {
+            background-color: darken(@color-yellow-btn, 5%);
+        }
+
+        &:active {
+            background-color: darken(@color-yellow-btn, 10%);
+        }
+    }
+
+    &.btn-green {
+        background-color: @color-green-btn;
+
+        &:hover {
+            background-color: darken(@color-green-btn, 5%);
+        }
+
+        &:active {
+            background-color: darken(@color-green-btn, 10%);
+        }
+    }
+}
