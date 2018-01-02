@@ -1,6 +1,6 @@
-# Hashtag Interactive: Valentine's Card App 2017
+# Hashtag Interactive: Valentine's Card App 2017 (React)
 
-A card app for our Valentine's Day editorial.
+A card app for our Valentine's Day editorial built in Meteor + React.
 
 ## Quick Start
 
