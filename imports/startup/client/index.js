@@ -5,4 +5,6 @@ import { render } from 'react-dom';
 import Default from '../../ui/layouts/Default/Default';
 import '../../ui/stylesheets/main.less';
 
-Meteor.startup(() => render(<Default />, document.getElementById('react-root')));
+Meteor.startup(() =>
+  render(<Default />, document.getElementById('react-root'))
+);

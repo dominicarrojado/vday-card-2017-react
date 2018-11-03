@@ -1,386 +1,379 @@
 @import './utils.less';
 
 .container-main {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  & > .left,
+  & > .right {
+    float: right;
+    width: 50%;
     height: 100%;
+
+    .error {
+      margin-bottom: 20px;
+      color: @color-red;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+
+  & > .left {
+    .select(none);
+
+    & > .cover,
+    & > .cover-index {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+
+      & > img {
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+      }
+    }
+
+    & > .cover {
+      & > img {
+        display: none;
+
+        &.show {
+          display: inline-block;
+        }
+      }
+    }
+
+    & > .btn-close {
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      color: @color-white;
+      font-size: 55px;
+      line-height: 1;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+      pointer-events: none;
+      .transition(opacity 0.6s ease-in-out);
+
+      &.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    & > .cover-index {
+      position: absolute;
+      width: 100%;
+      @transition: width 0.8s ease-in-out, transform 0.8s ease-in-out;
+      .transition(@transition);
+
+      &.show {
+        width: 50%;
+      }
+
+      & > .btn {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        width: 60px;
+        height: 60px;
+        padding: 0;
+        border-radius: 50%;
+        font-size: 15px;
+      }
+    }
+  }
+
+  & > .right {
+    position: relative;
+    padding: 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &.cover-open {
+      overflow: hidden;
+    }
+
+    & > .cover-selector,
+    & > .date,
+    .input-group,
+    .message {
+      margin-bottom: 30px;
+    }
+
+    & > .btn-preview {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      .transition(opacity 1s linear);
+
+      & > img {
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+      }
+    }
+
+    & > .cover-selector {
+      position: relative;
+      padding-left: 145px;
+
+      & > label {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        color: @color-gray;
+        font-size: 18px;
+      }
+
+      & > .list {
+        & > li {
+          position: relative;
+          float: left;
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+          border-radius: 50%;
+          background-color: @color-white;
+          cursor: pointer;
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &:hover {
+            background-color: @color-pink;
+          }
+
+          &.active {
+            background-color: darken(@color-pink, 15%);
+          }
+
+          & > div {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            .bg-cover;
+          }
+        }
+      }
+    }
+
+    & > .date {
+      font-size: 18px;
+    }
+
+    .name {
+      height: 25px;
+      padding-right: 95px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .message {
+      position: relative;
+      padding-top: 3px;
+      padding-right: 45px;
+
+      &.spaced {
+        padding: 0;
+        margin-bottom: 80px;
+      }
+
+      & > button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0.8;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    & > .sharer {
+      margin-top: 30px;
+      text-align: center;
+
+      & > .content {
+        font-size: 18px;
+      }
+
+      & > .buttons {
+        margin-bottom: 15px;
+        font-size: 0;
+        letter-spacing: 0;
+
+        & > button {
+          position: relative;
+          display: inline-block;
+          margin: 10px;
+          line-height: 0;
+          background-color: @color-black;
+          cursor: pointer;
+
+          &.active {
+            &::before {
+              content: 'Copied!';
+              position: absolute;
+              bottom: 100%;
+              left: 50%;
+              width: 90px;
+              margin-left: -45px;
+              margin-bottom: 6px;
+              border-radius: 4px;
+              color: @color-white;
+              padding: 6px 0;
+              font-size: 16px;
+              line-height: 1.4;
+              text-align: center;
+              background-color: @color-black;
+              z-index: 1;
+              pointer-events: none;
+            }
+
+            &::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 50%;
+              margin-top: -6px;
+              margin-left: -6px;
+              border-width: 6px;
+              border-style: solid;
+              border-color: @color-black transparent transparent transparent;
+              z-index: 1;
+              pointer-events: none;
+            }
+          }
+
+          &:hover {
+            & > img {
+              opacity: 0.9;
+            }
+          }
+
+          &:active {
+            & > img {
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+
+      & > .link {
+        font-size: 14px;
+        .text-force-wrap;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 940px) {
+    &.overflow {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      &.cover-open {
+        overflow: hidden;
+      }
+
+      & > .right {
+        height: auto;
+        overflow: hidden;
+      }
+    }
 
     & > .left,
     & > .right {
-        float: right;
-        width: 50%;
-        height: 100%;
-
-        .error {
-            margin-bottom: 20px;
-            color: @color-red;
-            font-size: 18px;
-            text-align: center;
-        }
+      float: none;
     }
 
     & > .left {
-        .select(none);
+      width: 0;
+      height: 0;
 
-        & > .cover,
-        & > .cover-index {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
+      & > .cover {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        @transition: width 0.8s ease-in-out, height 0.8s ease-in-out;
+        .transition(@transition);
 
-            & > img {
-                width: auto;
-                max-width: 100%;
-                height: 100%;
-            }
+        &.show {
+          width: calc(~'100% - 20px');
+          height: calc(~'100% - 20px');
+          cursor: default;
+          pointer-events: none;
         }
+      }
 
-        & > .cover {
+      & > .cover-index {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
 
-            & > img {
-                display: none;
-
-                &.show {
-                    display: inline-block;
-                }
-            }
+        &.show {
+          width: 100%;
+          .transform(translateX(-100%));
         }
-
-        & > .btn-close {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            color: @color-white;
-            font-size: 55px;
-            line-height: 1;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 1;
-            pointer-events: none;
-            .transition(opacity .6s ease-in-out);
-
-            &.show {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        & > .cover-index {
-            position: absolute;
-            width: 100%;
-            @transition: width .8s ease-in-out, transform .8s ease-in-out;
-            .transition(@transition);
-
-            &.show {
-                width: 50%;
-            }
-
-            & > .btn {
-                position: absolute;
-                bottom: 10px;
-                right: 15px;
-                width: 60px;
-                height: 60px;
-                padding: 0;
-                border-radius: 50%;
-                font-size: 15px;
-            }
-        }
+      }
     }
 
     & > .right {
-        position: relative;
-        padding: 40px;
-        overflow-y: auto;
-        overflow-x: hidden;
+      width: 100%;
 
-        &.cover-open {
-            overflow: hidden;
+      & > .btn-preview {
+        display: block;
+
+        &.show {
+          opacity: 1;
+          pointer-events: auto;
         }
-
-        & > .cover-selector,
-        & > .date,
-        .input-group,
-        .message {
-            margin-bottom: 30px;
-        }
-
-        & > .btn-preview {
-            display: none;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 100px;
-            height: 100px;
-            text-align: center;
-            cursor: pointer;
-            opacity: 0;
-            pointer-events: none;
-            .transition(opacity 1s linear);
-
-            & > img {
-                width: auto;
-                max-width: 100%;
-                height: 100%;
-            }
-        }
-
-        & > .cover-selector {
-            position: relative;
-            padding-left: 145px;
-
-            & > label {
-                position: absolute;
-                top: 10px;
-                left: 0;
-                color: @color-gray;
-                font-size: 18px;
-            }
-
-            & > .list {
-
-                & > li {
-                    position: relative;
-                    float: left;
-                    width: 40px;
-                    height: 40px;
-                    margin-right: 10px;
-                    margin-bottom: 10px;
-                    border-radius: 50%;
-                    background-color: @color-white;
-                    cursor: pointer;
-
-                    &:last-child {
-                        margin-right: 0;
-                    }
-
-                    &:hover {
-                        background-color: @color-pink;
-                    }
-
-                    &.active {
-                        background-color: darken(@color-pink, 15%);
-                    }
-
-                    & > div {
-                        position: absolute;
-                        width: 32px;
-                        height: 32px;
-                        top: 0;
-                        right: 0;
-                        bottom: 0;
-                        left: 0;
-                        margin: auto;
-                        .bg-cover;
-                    }
-                }
-            }
-        }
-
-        & > .date {
-            font-size: 18px;
-        }
-
-        .name {
-            height: 25px;
-            padding-right: 95px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .message {
-            position: relative;
-            padding-top: 3px;
-            padding-right: 45px;
-
-            &.spaced {
-                padding: 0;
-                margin-bottom: 80px;
-            }
-
-            & > button {
-                position: absolute;
-                top: 0;
-                right: 0;
-                opacity: .8;
-
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-
-        & > .sharer {
-            margin-top: 30px;
-            text-align: center;
-
-            & > .content {
-                font-size: 18px;
-            }
-
-            & > .buttons {
-                margin-bottom: 15px;
-                font-size: 0;
-                letter-spacing: 0;
-
-                & > button {
-                    position: relative;
-                    display: inline-block;
-                    margin: 10px;
-                    line-height: 0;
-                    background-color: @color-black;
-                    cursor: pointer;
-
-                    &.active {
-
-                        &::before {
-                            content: 'Copied!';
-                            position: absolute;
-                            bottom: 100%;
-                            left: 50%;
-                            width: 90px;
-                            margin-left: -45px;
-                            margin-bottom: 6px;
-                            border-radius: 4px;
-                            color: @color-white;
-                            padding: 6px 0;
-                            font-size: 16px;
-                            line-height: 1.4;
-                            text-align: center;
-                            background-color: @color-black;
-                            z-index: 1;
-                            pointer-events: none;
-                        }
-
-                        &::after {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            left: 50%;
-                            margin-top: -6px;
-                            margin-left: -6px;
-                            border-width: 6px;
-                            border-style: solid;
-                            border-color: @color-black transparent transparent transparent;
-                            z-index: 1;
-                            pointer-events: none;
-                        }
-                    }
-
-                    &:hover {
-
-                        & > img {
-                            opacity: .9;
-                        }
-                    }
-
-                    &:active {
-
-                        & > img {
-                            opacity: .8;
-                        }
-                    }
-                }
-            }
-
-            & > .link {
-                font-size: 14px;
-                .text-force-wrap;
-            }
-        }
+      }
     }
+  }
 
-    @media only screen and (max-width: 940px) {
+  @media only screen and (max-width: 575px) {
+    & > .right {
+      padding: 40px 20px;
 
-        &.overflow {
-            overflow-y: auto;
-            overflow-x: hidden;
+      & > .cover-selector {
+        padding-left: 0;
+        padding-right: 100px;
 
-            &.cover-open {
-                overflow: hidden;
-            }
-
-            & > .right {
-                height: auto;
-                overflow: hidden;
-            }
+        & > label {
+          display: block;
+          position: relative;
+          top: 0;
+          margin-bottom: 10px;
         }
-
-        & > .left,
-        & > .right {
-            float: none;
-        }
-
-        & > .left {
-            width: 0;
-            height: 0;
-
-            & > .cover {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                width: 100px;
-                height: 100px;
-                cursor: pointer;
-                @transition: width .8s ease-in-out, height .8s ease-in-out;
-                .transition(@transition);
-
-                &.show {
-                    width: calc(~"100% - 20px");
-                    height: calc(~"100% - 20px");
-                    cursor: default;
-                    pointer-events: none;
-                }
-            }
-
-            & > .cover-index {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-
-                &.show {
-                    width: 100%;
-                    .transform(translateX(-100%));
-                }
-            }
-        }
-
-        & > .right {
-            width: 100%;
-
-            & > .btn-preview {
-                display: block;
-
-                &.show {
-                    opacity: 1;
-                    pointer-events: auto;
-                }
-            }
-        }
+      }
     }
-
-    @media only screen and (max-width: 575px) {
-
-        & > .right {
-            padding: 40px 20px;
-
-            & > .cover-selector {
-                padding-left: 0;
-                padding-right: 100px;
-
-                & > label {
-                    display: block;
-                    position: relative;
-                    top: 0;
-                    margin-bottom: 10px;
-                }
-            }
-        }
-    }
+  }
 }

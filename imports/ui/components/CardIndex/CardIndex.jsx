@@ -9,151 +9,167 @@ import parseMessage from '../../../utils/parse-message.js';
 import getButtonColor from '../../../utils/get-button-color.js';
 
 const Tooltip = {
-    timeout: 0,
+  timeout: 0,
 
-    show({ classList }) {
-        const self = this;
+  show({ classList }) {
+    const self = this;
 
-        clearTimeout(self.timeout);
+    clearTimeout(self.timeout);
 
-        classList.add('active');
+    classList.add('active');
 
-        self.timeout = setTimeout(() => {
-            classList.remove('active');
-        }, 1000);
-    }
+    self.timeout = setTimeout(() => {
+      classList.remove('active');
+    }, 1000);
+  },
 };
 
 class CardIndex extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        const self = this;
+    const self = this;
 
-        self.state = {
-            isGettingCard: true,
-            card: '',
-            error: '',
-        };
-    }
+    self.state = {
+      isGettingCard: true,
+      card: '',
+      error: '',
+    };
+  }
 
-    static shareToFacebook(cardId) {
-        window.open(`https://www.facebook.com/sharer?u=${Meteor.absoluteUrl(cardId)}`, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');
-    }
+  componentDidMount() {
+    const self = this;
+    const { props } = self;
 
-    static shareToTwitter(cardId) {
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('I have a message for you check it here: ')}&url=${Meteor.absoluteUrl(cardId)}`, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');
-    }
-
-    componentDidMount() {
-        const self = this;
-        const { props } = self;
-
-        Meteor.call('getCardItem', props.match.params.cardId, (error, result) => {
-            if (error) {
-                props.history.push('/');
-            } else {
-                self.setState({
-                    isGettingCard: false,
-                    card: result,
-                });
-
-                var btnCopyLink = document.getElementById('btnCopyLink');
-                var clipboard = new Clipboard(btnCopyLink);
-
-                clipboard.on('success', () => {
-                    console.log('Success!');
-                    Tooltip.show(btnCopyLink);
-                });
-
-                clipboard.on('error', () => {
-                    self.setState({ error: 'There was an error on copying the link.' });
-                });
-            }
+    Meteor.call('getCardItem', props.match.params.cardId, (error, result) => {
+      if (error) {
+        props.history.push('/');
+      } else {
+        self.setState({
+          isGettingCard: false,
+          card: result,
         });
-    }
 
-    render() {
-        const self = this;
-        const { isGettingCard, card, error } = self.state;
-        const { isCardOpen, setCardOpen } = self.props;
-        const { _id, cover, to, from, message, createdAt } = card;
+        var btnCopyLink = document.getElementById('btnCopyLink');
+        var clipboard = new Clipboard(btnCopyLink);
 
-        return !isGettingCard ? (
-            <div className="container-main">
-                <div className="right">
-                    <div onClick={() => setCardOpen(false)} className={`${isCardOpen ? 'show' : ''} bg-${cover} btn-preview`}>
-                        <img src={`/images/cover-${cover}.gif`} />
-                    </div>
-                    <div className="date">
-                        {moment(createdAt).format('MMMM D, YYYY')}
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="to">
-                            To:
-                        </label>
-                        <div className="name form-control">
-                            {to}
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="from">
-                            From:
-                        </label>
-                        <div className="name form-control">
-                            {from}
-                        </div>
-                    </div>
-                    <div className="message spaced">
-                        <div dangerouslySetInnerHTML={parseMessage(message)} className="form-control"></div>
-                    </div>
-                    <div className="text-center">
-                        <Link to="/" className={`btn-${getButtonColor(cover)} btn`}>Create another one</Link>
-                    </div>
+        clipboard.on('success', () => {
+          console.log('Success!');
+          Tooltip.show(btnCopyLink);
+        });
 
-                    {error ? <div className="error">{error}</div> : ''}
+        clipboard.on('error', () => {
+          self.setState({ error: 'There was an error on copying the link.' });
+        });
+      }
+    });
+  }
 
-                    <div className="sharer">
-                        <div className="content">
-                            Share this card
-                        </div>
-                        <div className="buttons">
-                            <button onClick={() => CardIndex.shareToFacebook(_id)} type="button">
-                                <img src="/images/icons/icon-facebook.png" alt="Facebook" />
-                            </button>
-                            <button onClick={() => CardIndex.shareToTwitter(_id)} type="button">
-                                <img src="/images/icons/icon-twitter.png" alt="Twitter" />
-                            </button>
-                            <button data-clipboard-text={Meteor.absoluteUrl(_id)} id="btnCopyLink" type="button">
-                                <img src="/images/icons/icon-link.png" alt="Link" />
-                            </button>
-                        </div>
-                        <div className="content">
-                            or copy this link:
-                        </div>
-                        <div className="link">
-                            {Meteor.absoluteUrl(_id)}
-                        </div>
-                    </div>
-                </div>
-                <div className="left">
-                    <div className={`bg-${cover} ${isCardOpen ? 'show' : ''} cover-index`}>
-                        <img src={`/images/cover-${cover}.gif`} />
-                        <button onClick={() => setCardOpen(!isCardOpen)} className={`btn-${getButtonColor(cover)} btn`} type="button">
-                            {isCardOpen ? 'Close' : 'Open'}
-                        </button>
-                    </div>
-                </div>
+  shareToFacebook(shareLink) {
+    window.open(
+      `https://www.facebook.com/sharer?u=${shareLink}`,
+      '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600'
+    );
+  }
+
+  hareToTwitter(shareLink) {
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        'I have a message for you check it here: '
+      )}&url=${shareLink}`,
+      '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600'
+    );
+  }
+
+  render() {
+    const self = this;
+    const { shareToFacebook, shareToTwitter } = self;
+    const { isGettingCard, card, error } = self.state;
+    const { isCardOpen, setCardOpen } = self.props;
+    const { _id, cover, to, from, message, createdAt } = card;
+    const shareLink = `${window.location.origin}/${_id}`;
+
+    return !isGettingCard ? (
+      <div className="container-main">
+        <div className="right">
+          <div
+            onClick={() => setCardOpen(false)}
+            className={`${isCardOpen ? 'show' : ''} bg-${cover} btn-preview`}
+          >
+            <img src={`/images/cover-${cover}.gif`} />
+          </div>
+          <div className="date">{moment(createdAt).format('MMMM D, YYYY')}</div>
+          <div className="input-group">
+            <label htmlFor="to">To:</label>
+            <div className="name form-control">{to}</div>
+          </div>
+          <div className="input-group">
+            <label htmlFor="from">From:</label>
+            <div className="name form-control">{from}</div>
+          </div>
+          <div className="message spaced">
+            <div
+              dangerouslySetInnerHTML={parseMessage(message)}
+              className="form-control"
+            />
+          </div>
+          <div className="text-center">
+            <Link to="/" className={`btn-${getButtonColor(cover)} btn`}>
+              Create another one
+            </Link>
+          </div>
+
+          {error ? <div className="error">{error}</div> : ''}
+
+          <div className="sharer">
+            <div className="content">Share this card</div>
+            <div className="buttons">
+              <button onClick={() => shareToFacebook(shareLink)} type="button">
+                <img src="/images/icons/icon-facebook.png" alt="Facebook" />
+              </button>
+              <button onClick={() => shareToTwitter(shareLink)} type="button">
+                <img src="/images/icons/icon-twitter.png" alt="Twitter" />
+              </button>
+              <button
+                data-clipboard-text={shareLink}
+                id="btnCopyLink"
+                type="button"
+              >
+                <img src="/images/icons/icon-link.png" alt="Link" />
+              </button>
             </div>
-        ) : '';
-    }
+            <div className="content">or copy this link:</div>
+            <div className="link">{shareLink}</div>
+          </div>
+        </div>
+        <div className="left">
+          <div
+            className={`bg-${cover} ${isCardOpen ? 'show' : ''} cover-index`}
+          >
+            <img src={`/images/cover-${cover}.gif`} />
+            <button
+              onClick={() => setCardOpen(!isCardOpen)}
+              className={`btn-${getButtonColor(cover)} btn`}
+              type="button"
+            >
+              {isCardOpen ? 'Close' : 'Open'}
+            </button>
+          </div>
+        </div>
+      </div>
+    ) : (
+      ''
+    );
+  }
 }
 
 CardIndex.propTypes = {
-    isCardOpen: PropTypes.bool.isRequired,
-    setCardOpen: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+  isCardOpen: PropTypes.bool.isRequired,
+  setCardOpen: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default CardIndex;

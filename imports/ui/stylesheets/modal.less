@@ -1,138 +1,137 @@
 @import './utils.less';
 
 .modal-open {
-    overflow: hidden;
+  overflow: hidden;
 
-    .modal {
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+  .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  outline: 0;
+  opacity: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1050;
+  .transition(opacity 0.15s linear);
+
+  &.show {
+    opacity: 1;
+
+    & > .dialog {
+      .transform(translate(0, 0));
+    }
+  }
+
+  & > .dialog {
+    max-width: 800px;
+    margin: 30px auto;
+    z-index: 1;
+    .transform(translate(0, -25%));
+    .transition(transform 0.3s ease-out);
+
+    & > .wrapper {
+      position: relative;
+      outline: 0;
+      padding: 40px;
+      background-color: @color-white;
+      background-clip: padding-box;
+      pointer-events: auto;
+      .d-flex;
+      .flex-direction(column);
+
+      & > .btn-close {
+        position: absolute;
+        top: 3px;
+        right: 15px;
+        color: lighten(@color-gray-dark, 10%);
+        font-size: 45px;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover {
+          color: @color-gray-dark;
+        }
+
+        &:active {
+          color: darken(@color-gray-dark, 10%);
+        }
+      }
+
+      & > .header {
+        margin-bottom: 20px;
+        padding: 0 25px;
+        font-size: 22px;
+        text-align: center;
+      }
+
+      & > .suggestions {
+        font-size: 0;
+        line-height: 0;
+        letter-spacing: 0;
+        text-align: center;
+
+        & > li {
+          display: inline-block;
+          width: 300px;
+          max-width: 100%;
+          min-height: 140px;
+          margin: 7px;
+          padding: 20px;
+          border: 2px solid transparent;
+          font-size: 16px;
+          line-height: 1.4;
+          text-align: left;
+          background-color: #eaeaea;
+          cursor: pointer;
+
+          &:hover {
+            border-color: @color-red;
+          }
+        }
+      }
+    }
+  }
+
+  & > .backdrop {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    outline: 0;
-    opacity: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    z-index: 1050;
-    .transition(opacity .15s linear);
+    z-index: -1;
+  }
 
-    &.show {
-        opacity: 1;
-
-        & > .dialog {
-            .transform(translate(0, 0));
-        }
-    }
-
+  @media only screen and (max-width: 860px) {
     & > .dialog {
-        max-width: 800px;
-        margin: 30px auto;
-        z-index: 1;
-        .transform(translate(0, -25%));
-        .transition(transform .3s ease-out);
+      margin: 10px;
 
-        & > .wrapper {
-            position: relative;
-            outline: 0;
-            padding: 40px;
-            background-color: @color-white;
-            background-clip: padding-box;
-            pointer-events: auto;
-            .d-flex;
-            .flex-direction(column);
-
-            & > .btn-close {
-                position: absolute;
-                top: 3px;
-                right: 15px;
-                color: lighten(@color-gray-dark, 10%);
-                font-size: 45px;
-                line-height: 1;
-                cursor: pointer;
-
-                &:hover {
-                    color: @color-gray-dark;
-                }
-
-                &:active {
-                    color: darken(@color-gray-dark, 10%);
-                }
-            }
-
-            & > .header {
-                margin-bottom: 20px;
-                padding: 0 25px;
-                font-size: 22px;
-                text-align: center;
-            }
-
-            & > .suggestions {
-                font-size: 0;
-                line-height: 0;
-                letter-spacing: 0;
-                text-align: center;
-
-                & > li {
-                    display: inline-block;
-                    width: 300px;
-                    max-width: 100%;
-                    min-height: 140px;
-                    margin: 7px;
-                    padding: 20px;
-                    border: 2px solid transparent;
-                    font-size: 16px;
-                    line-height: 1.4;
-                    text-align: left;
-                    background-color: #eaeaea;
-                    cursor: pointer;
-
-                    &:hover {
-                        border-color: @color-red;
-                    }
-                }
-            }
-        }
+      & > .wrapper {
+        padding: 30px 20px;
+      }
     }
-
-    & > .backdrop {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-    }
-
-    @media only screen and (max-width: 860px) {
-
-        & > .dialog {
-            margin: 10px;
-
-            & > .wrapper {
-                padding: 30px 20px;
-            }
-        }
-    }
+  }
 }
 
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: @color-black;
-    opacity: 0;
-    z-index: 1040;
-    .transition(opacity .15s linear);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: @color-black;
+  opacity: 0;
+  z-index: 1040;
+  .transition(opacity 0.15s linear);
 
-    &.show {
-        opacity: .5;
-    }
+  &.show {
+    opacity: 0.5;
+  }
 }
