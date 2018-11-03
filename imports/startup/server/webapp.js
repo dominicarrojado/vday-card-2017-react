@@ -7,8 +7,10 @@ WebApp.connectHandlers.use(
     const card = Cards.findOne(req.url.substr(1), {
       fields: { to: 1, from: 1, cover: 1 },
     });
-    const { domain, host } = req.headers;
-    const currentDomain = domain ? domain : host;
+    const { host } = req.headers;
+    const currentDomain = `http${
+      host !== 'localhost:3000' ? 's' : ''
+    }://${host}`;
     let meta;
 
     if (card) {
